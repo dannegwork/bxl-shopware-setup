@@ -1,0 +1,11 @@
+.idea
+.docker/database
+.env
+auth.json
+.docker/apache/logs/
+.docker/php/logs/
+.docker/cli/logs/
+/logs/*
+plugin-shopware
+composer.phar
+code

@@ -1,0 +1,110 @@
+version: '2'
+
+services:
+  server:
+    build: ./docker/apache
+    image: bxl/shpw-apache:2.4
+    container_name: bxl_shpw_apache
+    volumes:
+    - ./docker/apache/conf/default-bxl.conf:/etc/httpd/www.conf
+    - ./docker/apache/logs:/var/log/apache
+    volumes_from:
+    - code
+    ports:
+    - 80
+    - 443
+    links:
+    - php
+    - database
+    tty: true
+    environment:
+      SERVER_NAME: "shopware.boxalino.com"
+    env_file:
+    - ./docker/apache/.env
+
+  php:
+    build: ./docker/php
+    image: bxl/shpw-php:7.0.20
+    container_name: bxl_shpw_php7.0.20
+    volumes_from:
+      - code
+    volumes:
+      - ./docker/php/conf/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/php/conf/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./docker/php/conf/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./docker/php/conf/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini
+    ports:
+      - 9000
+    links:
+      - code
+      - mailcatcher
+    environment:
+      PHP_IDE_CONFIG: "serverName=shopware.boxalino.com"
+
+  database:
+    build: ./docker/mysql
+    image: bxl/shpw-mysql:5.7
+    container_name: bxl_shpw_mysql5.7
+    volumes_from:
+      - dbdata
+    volumes:
+      - ./docker/mysql/conf/shpw.cnf:/etc/mysql/conf.d
+      - ./docker/database/data:/var/lib/mysql
+      - ./docker/database/setup:/docker-entrypoint-initdb.d
+    links:
+      - dbdata
+    ports:
+      - 3306
+    env_file:
+      - ./docker/mysql/.env
+
+  shopware:
+    build: ./docker/cli
+    image: bxl/shpw-cli:7.0.20
+    container_name: bxl_shpw_cli
+    links:
+    - code
+    - database
+    volumes_from:
+    - code
+    volumes:
+    - ./docker/cli/conf/php.ini:/usr/local/etc/php/conf.d/php.ini
+    environment:
+      PROJECT_ROOT: "/var/www/shopware"
+    env_file:
+    - ./docker/cli/.env
+    - ./docker/mysql/.env
+
+  phpmyadmin:
+    build: ./docker/phpmyadmin
+    image: bxl/phpmyadmin:4.7
+    container_name: bxl_shpw_phpmyadmin
+    volumes_from:
+    - dbdata
+    ports:
+    - 80
+    env_file:
+    - ./docker/phpmyadmin/.env
+
+  mailcatcher:
+    build: ./docker/mailcatcher
+    container_name: bxl_mailcatcher
+    image: bxl/mailcatcher:0.6.4
+    ports:
+    - 1080
+    - 1025
+
+  dbdata:
+    image: tianon/true
+    container_name: bxl_shpw_dbdata
+    volumes:
+    - /var/lib/mysql
+
+  code:
+    build: ./docker/volume
+    image: bxl/volume
+    container_name: bxl_shpw_volume
+    volumes:
+    - ./code:/var/www/shopware
+    environment:
+      SETUP_VOLUME: "/var/www/shopware"
