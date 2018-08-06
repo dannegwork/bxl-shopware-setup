@@ -1,6 +1,8 @@
 .idea
 .docker/database
 .env
+id_rsa
+id_rsa.pub
 auth.json
 .docker/apache/logs/
 .docker/php/logs/
