@@ -24,8 +24,8 @@ services:
 
   php:
     build: ./docker/php
-    image: bxl/shpw-php:7.0.20
-    container_name: bxl_shpw_php7.0.20
+    image: bxl/shpw-php:7.2.8
+    container_name: bxl_shpw_php7.2.8
     volumes_from:
       - code
     volumes:
@@ -60,11 +60,12 @@ services:
 
   shopware:
     build: ./docker/cli
-    image: bxl/shpw-cli:7.0.20
+    image: bxl/shpw-cli:7.2
     container_name: bxl_shpw_cli
     links:
     - code
     - database
+    - ant
     volumes_from:
     - code
     volumes:
@@ -74,6 +75,16 @@ services:
     env_file:
     - ./docker/cli/.env
     - ./docker/mysql/.env
+  ant:
+    build: ./docker/ant
+    image: bxl/shpw-ant:10.1
+    container_name: bxl_shpw_ant
+    links:
+    - code
+    volumes_from:
+    - code
+    environment:
+      PROJECT_ROOT: "/var/www/shopware"
 
   phpmyadmin:
     build: ./docker/phpmyadmin

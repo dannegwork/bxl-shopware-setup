@@ -12,11 +12,28 @@ RUN a2enmod rewrite \
 COPY ./bin/start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
-WORKDIR /var/www/shopware
-EXPOSE 80 443
-
 RUN a2enmod rewrite
 RUN mkdir ~/.ssh && touch ~/.ssh/known_hosts && chmod 644 ~/.ssh/known_hosts && eval $(ssh-agent -s)
+
+ENV APACHE_LOCK_DIR         /var/lock/apache2
+ENV APACHE_RUN_DIR          /var/run/apache2
+ENV APACHE_PID_FILE         ${APACHE_RUN_DIR}/apache2.pid
+ENV APACHE_LOG_DIR          /var/log/apache2
+ENV APACHE_RUN_USER         www-data
+ENV APACHE_RUN_GROUP        www-data
+ENV APACHE_MAX_REQUEST_WORKERS 32
+ENV APACHE_MAX_CONNECTIONS_PER_CHILD 1024
+ENV APACHE_ALLOW_OVERRIDE   None
+ENV APACHE_ALLOW_ENCODED_SLASHES Off
+ENV APACHE_DISABLE_ACCESS_LOG ""
+ENV PHP_TIMEZONE            UTC
+ENV PHP_MBSTRING_FUNC_OVERLOAD 0
+ENV PHP_NEWRELIC_LICENSE_KEY    ""
+ENV PHP_NEWRELIC_APPNAME        ""
+ENV PHP_NEWRELIC_FRAMEWORK      "no_framework"
+
+WORKDIR /var/www/shopware
+EXPOSE 80 443
 
 USER www-data
 #CMD ["/usr/local/bin/start.sh"]

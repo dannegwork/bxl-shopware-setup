@@ -20,9 +20,9 @@ chmod -R 755 media
 chmod -R 755 engine/Shopware/Plugins/Community
 
 echo "Using ANT to build the files"
-cd build/
-ant configure
-ant build-unit
+#cd build/
+#ant configure
+#ant build-unit
 
 echo "Download the test images and extract the test images"
 if [ "$PROJECT_VERSION" < 5.1 ]; then
@@ -35,4 +35,4 @@ unzip test_images.zip
 
 chown -R 1001:1001 $PROJECT_ROOT
 
-echo "Shopware 2 installation is complete"
+echo "Shopware installation is complete"
