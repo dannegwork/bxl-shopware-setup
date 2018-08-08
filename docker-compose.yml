@@ -116,6 +116,6 @@ services:
     image: bxl/volume
     container_name: bxl_shpw_volume
     volumes:
-    - ./code:/var/www/shopware
+    - ./code/shopware:/var/www/shopware
     environment:
       SETUP_VOLUME: "/var/www/shopware"
