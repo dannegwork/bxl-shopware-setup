@@ -48,7 +48,7 @@ services:
     volumes_from:
       - dbdata
     volumes:
-      - ./docker/mysql/conf/shpw.cnf:/etc/mysql/conf.d
+      - ./docker/mysql/conf:/etc/mysql/conf.d
       - ./docker/database/data:/var/lib/mysql
       - ./docker/database/setup:/docker-entrypoint-initdb.d
     links:

@@ -1,2 +1,3 @@
+[mysqld]
 group_concat_max_len = 2048
 query_cache_size = 200

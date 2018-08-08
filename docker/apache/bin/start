@@ -14,4 +14,4 @@ cp $BASEDIR/apache2/sites-enabled/default-bxl.conf $SERVER_FILE
 mkdir -p /etc/apache2/sites-enabled/
 ln -s $SERVER_FILE /etc/apache2/sites-enabled/"${SERVER_NAME}".conf
 
-/usr/sbin/nginx -g "daemon off;"
+/usr/sbin/apache2 restart
