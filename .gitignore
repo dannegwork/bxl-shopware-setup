@@ -1,13 +1,12 @@
 .idea
-docker/database
+docker/database/
 .env
 id_rsa
 id_rsa.pub
 auth.json
-.docker/apache/logs/
-.docker/php/logs/
-.docker/cli/logs/
-/logs/*
+docker/apache/logs/
+docker/php/logs/
+docker/cli/logs/
 plugin-shopware
 composer.phar
 code
