@@ -3,7 +3,7 @@ version: '2'
 services:
   server:
     build: ./docker/nginx
-    image: bxl/shpw-nginx:1.13
+    image: bxl/shpw-nginx:1.15
     container_name: bxl_shpw_nginx
     volumes:
       - ./docker/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
