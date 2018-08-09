@@ -10,3 +10,4 @@ docker/cli/logs/
 plugin-shopware
 composer.phar
 code
+docker/nginx/logs/

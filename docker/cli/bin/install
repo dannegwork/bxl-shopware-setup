@@ -4,11 +4,7 @@ set -x
 
 if [ ! -f "$PROJECT_ROOT/composer.json" ]; then
     echo "Creating Shopware ($PROJECT_VERSION) project from git"
-
     git clone https://github.com/shopware/shopware.git
-
-    mkdir -p $PROJECT_ROOT/var/composer_home/ \
-        && cp /root/.composer/auth.json $PROJECT_ROOT/var/composer_home/auth.json
 fi
 
 echo "Setting +x permissions on files"
@@ -20,9 +16,9 @@ chmod -R 755 media
 chmod -R 755 engine/Shopware/Plugins/Community
 
 echo "Using ANT to build the files"
-#cd build/
-#ant configure
-#ant build-unit
+cd  build/
+ant configure
+ant build-unit
 
 echo "Download the test images and extract the test images"
 if [ "$PROJECT_VERSION" < 5.1 ]; then

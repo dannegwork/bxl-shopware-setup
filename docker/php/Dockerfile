@@ -71,6 +71,7 @@ RUN docker-php-ext-install opcache && \
 RUN pecl install xdebug && \
 docker-php-ext-enable xdebug
 
+# Install Mailcatcher
 RUN apt-get update &&\
     apt-get -y install build-essential ruby-full libsqlite3-dev &&\
     apt-get clean && rm -rf /var/lib/apt/lists/* &&\
@@ -85,17 +86,15 @@ RUN ln -s /etc/php/mods-available/apcu.ini /usr/local/etc/php/conf.d/20-apcu.ini
 
 
 # Install ioncube
-#ADD https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz /tmp/
-#RUN tar xvzfC /tmp/ioncube_loaders_lin_x86-64.tar.gz /tmp/ \
-#    && rm /tmp/ioncube_loaders_lin_x86-64.tar.gz \
-#    && mkdir -p /usr/local/ioncube \
-#    && cp /tmp/ioncube/ioncube_loader_lin_7.0.so /usr/local/ioncube \
-#    && rm -rf /tmp/ioncube
-#COPY conf/00-ioncube.ini /etc/php/7.0/apache2/conf.d/00-ioncube.ini
-#COPY conf/00-ioncube.ini /etc/php/7.0/cli/conf.d/00-ioncube.ini
+ADD https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz /tmp/
+RUN tar xvzfC /tmp/ioncube_loaders_lin_x86-64.tar.gz /tmp/ \
+    && rm /tmp/ioncube_loaders_lin_x86-64.tar.gz \
+    && mkdir -p /usr/local/ioncube \
+    && cp /tmp/ioncube/ioncube_loader_lin_7.0.so /usr/local/ioncube \
+    && rm -rf /tmp/ioncube
+COPY ./conf/00-ioncube.ini /usr/local/etc/php/conf.d/00-ioncube.ini
 
 WORKDIR "/var/www/shopware"
-
 VOLUME "/usr/local/etc/php/conf.d"
 
 RUN usermod -u 1001 www-data

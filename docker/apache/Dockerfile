@@ -1,12 +1,12 @@
-FROM apache:2.4
+FROM httpd:2.4
 MAINTAINER Dana Negrescu "dana.negrescu@boxalino.com"
 
 # Configure Apache
 COPY conf/default-bxl.conf /etc/apache2/sites-available/000-default.conf
-RUN a2enmod rewrite \
-    && sed --in-place "s/^upload_max_filesize.*$/upload_max_filesize = 10M/" /etc/php/7.0/apache2/php.ini \
-    && sed --in-place "s/^memory_limit.*$/memory_limit = 256M/" /etc/php/7.0/apache2/php.ini \
-    && phpenmod mcrypt
+#RUN a2enmod rewrite \
+#    && sed --in-place "s/^upload_max_filesize.*$/upload_max_filesize = 10M/" /etc/php/7.0/apache2/php.ini \
+#    && sed --in-place "s/^memory_limit.*$/memory_limit = 256M/" /etc/php/7.0/apache2/php.ini \
+#    && phpenmod mcrypt
 
 
 COPY ./bin/start.sh /usr/local/bin/start.sh
