@@ -9,6 +9,7 @@ fi
 
 echo "Setting +x permissions on files"
 chown 1001:1001 -R $PROJECT_ROOT
+cd $PROJECT_ROOT
 chmod -R 755 var
 chmod -R 755 web
 chmod -R 755 files
@@ -21,6 +22,7 @@ ant configure
 ant build-unit
 
 echo "Download the test images and extract the test images"
+cd $PROJECT_ROOT
 if [ "$PROJECT_VERSION" < 5.1 ]; then
     wget -O test_images.zip http://releases.s3.shopware.com/test_images.zip
 else
