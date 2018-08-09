@@ -71,6 +71,9 @@ RUN docker-php-ext-install opcache && \
 RUN pecl install xdebug && \
 docker-php-ext-enable xdebug
 
+COPY ./conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
+
 # Install Mailcatcher
 RUN apt-get update &&\
     apt-get -y install build-essential ruby-full libsqlite3-dev &&\
