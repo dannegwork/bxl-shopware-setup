@@ -13,8 +13,8 @@ services:
     volumes_from:
       - code
     ports:
-      - 80
-      - 443
+      - 32773:80
+      - 32774:443
     links:
       - php
       - database
