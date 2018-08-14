@@ -9,11 +9,11 @@ RUN apt-get update && apt-get install -y \
 
 COPY ./conf/nginx.conf /etc/nginx/
 COPY ./conf/sites-enabled/default.shopware.conf /usr/local/bin/nginx/sites-enabled/default.shopware.conf
-COPY ./bin/start.sh /usr/local/bin/start.sh
+COPY ./bin/start /usr/local/bin/start
 
-RUN chmod +x /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start
 
 WORKDIR /var/www/shopware
 EXPOSE 80 443
 
-CMD ["/usr/local/bin/start.sh"]
+CMD ["/usr/local/bin/start"]
