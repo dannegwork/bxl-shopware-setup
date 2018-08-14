@@ -6,89 +6,89 @@ services:
     image: bxl/shpw-nginx:1.15
     container_name: bxl_shpw_nginx
     volumes:
-      - ./docker/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
-      - ./docker/nginx/conf/sites-enabled:/usr/local/bin/nginx/sites-enabled
-      - ./docker/nginx/conf/sites-available:/usr/local/bin/nginx/sites-available
-      - ./docker/nginx/logs:/var/log/nginx
+    - ./docker/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+    - ./docker/nginx/conf/sites-enabled:/usr/local/bin/nginx/sites-enabled
+    - ./docker/nginx/conf/sites-available:/usr/local/bin/nginx/sites-available
+    - ./docker/nginx/logs:/var/log/nginx
     volumes_from:
-      - code
+    - code
     ports:
-      - 32773:80
-      - 32774:443
+    - 80
+    - 443
     links:
-      - php
-      - database
+    - php
+    - database
     tty: true
     environment:
-      SERVER_NAME: "shopware.boxalino.com"
+      SERVER_NAME: "shpw.local"
     env_file:
-      - ./docker/nginx/.env
+    - ./docker/nginx/.env
 
   php:
     build: ./docker/php
     image: bxl/shpw-php:7.2.8
     container_name: bxl_shpw_php7.2.8
     volumes_from:
-      - code
+    - code
     volumes:
-      - ./docker/php/conf/php.ini:/usr/local/etc/php/php.ini
-      - ./docker/php/conf/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
-      - ./docker/php/conf/www.conf:/usr/local/etc/php-fpm.d/www.conf
-      - ./docker/php/conf/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini
-      - ./docker/php/logs:/var/log/php
+    - ./docker/php/conf/php.ini:/usr/local/etc/php/php.ini
+    - ./docker/php/conf/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    - ./docker/php/conf/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    - ./docker/php/conf/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini
+    - ./docker/php/logs:/var/log/php
     ports:
-      - 9000
+    - 9000
     links:
-      - code
-      - mailcatcher
+    - code
+    - mailcatcher
     environment:
-      PHP_IDE_CONFIG: "serverName=shopware.boxalino.com"
+      PHP_IDE_CONFIG: "serverName=shpw.local"
 
   database:
     build: ./docker/mysql
     image: bxl/shpw-mysql:5.7
     container_name: bxl_shpw_mysql5.7
     volumes_from:
-      - dbdata
+    - dbdata
     volumes:
-      - ./docker/mysql/conf:/etc/mysql/conf.d
-      - ./docker/database/data:/var/lib/mysql
-      - ./docker/database/setup:/docker-entrypoint-initdb.d
+    - ./docker/mysql/conf:/etc/mysql/conf.d
+    - ./docker/database/data:/var/lib/mysql
+    - ./docker/database/setup:/docker-entrypoint-initdb.d
     links:
-      - dbdata
+    - dbdata
     tty: true
     ports:
-      - 3306
+    - 3306
     env_file:
-      - ./docker/mysql/.env
+    - ./docker/mysql/.env
 
   shopware:
     build: ./docker/cli
     image: bxl/shpw-cli:7.2
     container_name: bxl_shpw_cli
     links:
-      - code
-      - database
+    - code
+    - database
     volumes_from:
-      - code
+    - code
     volumes:
-      - ./docker/cli/conf/php.ini:/usr/local/etc/php/conf.d/php.ini
+    - ./docker/cli/conf/php.ini:/usr/local/etc/php/conf.d/php.ini
     environment:
       PROJECT_ROOT: "/var/www/shopware"
     env_file:
-      - ./docker/cli/.env
-      - ./docker/mysql/.env
+    - ./docker/cli/.env
+    - ./docker/mysql/.env
 
   phpmyadmin:
     build: ./docker/phpmyadmin
     image: bxl/phpmyadmin:4.7
     container_name: bxl_shpw_phpmyadmin
     volumes_from:
-      - dbdata
+    - dbdata
     ports:
-      - 80
+    - 80
     env_file:
-      - ./docker/phpmyadmin/.env
+    - ./docker/phpmyadmin/.env
 
   mailcatcher:
     build: ./docker/mailcatcher
@@ -96,20 +96,20 @@ services:
     image: bxl/mailcatcher:0.6.4
     tty: true
     ports:
-      - 1080
-      - 1025
+    - 1080
+    - 1025
 
   dbdata:
     image: tianon/true
     container_name: bxl_shpw_dbdata
     volumes:
-      - /var/lib/mysql
+    - /var/lib/mysql
 
   code:
     build: ./docker/volume
     image: bxl/volume
     container_name: bxl_shpw_volume
     volumes:
-      - ./code/shopware:/var/www
+    - ./code/shopware:/var/www
     environment:
       SETUP_VOLUME: "/var/www"

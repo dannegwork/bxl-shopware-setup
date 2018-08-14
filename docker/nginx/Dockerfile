@@ -7,12 +7,13 @@ RUN apt-get update && apt-get install -y \
     procps \
     iputils-ping
 
-COPY conf /etc/nginx/
-#COPY conf /usr/local/bin/nginx/sites-enabled/shopware.boxalino.conf
-#COPY conf /usr/local/bin/nginx/sites-available/shopware.boxalino.conf
-#RUN a2ensite shopware.boxalino.com.conf
+COPY ./conf/nginx.conf /etc/nginx/
+COPY ./conf/sites-enabled/default.shopware.conf /usr/local/bin/nginx/sites-enabled/default.shopware.conf
+COPY ./bin/start.sh /usr/local/bin/start.sh
+
+RUN chmod +x /usr/local/bin/start.sh
 
 WORKDIR /var/www/shopware
 EXPOSE 80 443
 
-#CMD ["bash /usr/local/bin/start"]
+CMD ["/usr/local/bin/start.sh"]
