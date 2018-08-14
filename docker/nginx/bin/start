@@ -5,7 +5,7 @@ set -e
 rm -rf /etc/nginx/conf.d/*
 BASEDIR=$(dirname "$0")
 SERVER_FILE=$BASEDIR/nginx/sites-enabled/"${SERVER_NAME}".conf
-cp $BASEDIR/nginx/sites-enabled/default.m2.conf $SERVER_FILE
+cp $BASEDIR/nginx/sites-enabled/default.shopware.conf $SERVER_FILE
 
 [ ! -z "${PHP_HOST}" ]                 && sed -i "s%_PHP_HOST_%${PHP_HOST}%g" $SERVER_FILE
 [ ! -z "${PHP_PORT}" ]                 && sed -i "s%_PHP_PORT_%${PHP_PORT}%g" $SERVER_FILE
