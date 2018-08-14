@@ -20,7 +20,7 @@ services:
     - database
     tty: true
     environment:
-      SERVER_NAME: "shpw.local"
+      SERVER_NAME: "shpw.bxl.com"
     env_file:
     - ./docker/nginx/.env
 
@@ -42,7 +42,7 @@ services:
     - code
     - mailcatcher
     environment:
-      PHP_IDE_CONFIG: "serverName=shpw.local"
+      PHP_IDE_CONFIG: "serverName=shpw.bxl.com"
 
   database:
     build: ./docker/mysql

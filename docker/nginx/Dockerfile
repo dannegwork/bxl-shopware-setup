@@ -8,12 +8,8 @@ RUN apt-get update && apt-get install -y \
     iputils-ping
 
 COPY ./conf/nginx.conf /etc/nginx/
-COPY ./conf/sites-enabled/default.shopware.conf /usr/local/bin/nginx/sites-enabled/default.shopware.conf
-COPY ./bin/start /usr/local/bin/start
-
-RUN chmod +x /usr/local/bin/start
+COPY ./conf/sites-enabled/shpw.bxl.com.conf /etc/nginx/sites-enabled/shpw.bxl.com.conf
+COPY ./conf/sites-available/shpw.bxl.com.conf /etc/nginx/sites-available/shpw.bxl.com.conf
 
 WORKDIR /var/www/shopware
 EXPOSE 80 443
-
-CMD ["/usr/local/bin/start"]
