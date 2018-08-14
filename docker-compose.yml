@@ -73,6 +73,7 @@ services:
     - code
     volumes:
     - ./docker/cli/conf/php.ini:/usr/local/etc/php/conf.d/php.ini
+    - $HOME/.ssh/id_rsa:/root/.ssh/id_rsa
     environment:
       PROJECT_ROOT: "/var/www/shopware"
     env_file:
