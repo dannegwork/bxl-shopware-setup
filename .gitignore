@@ -11,3 +11,4 @@ plugin-shopware
 composer.phar
 code
 docker/nginx/logs/
+plugin-shopware-v2
