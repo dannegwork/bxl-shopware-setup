@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -x
+
+if [ ! -f "$PROJECT_ROOT/composer.json" ]; then
+    echo "Creating Shopware ($PROJECT_VERSION) project from git"
+    git clone https://github.com/shopware/shopware.git
+fi
+
+echo "Setting +x permissions on files"
+chown 1001:1001 -R $PROJECT_ROOT
+cd $PROJECT_ROOT
+chmod -R 755 var
+chmod -R 755 web
+chmod -R 755 files
+chmod -R 755 media
+chmod -R 755 engine/Shopware/Plugins/Community
+
+echo "Using ANT to build the files"
+cd  build/
+ant configure
+ant build-unit
+
+echo "Download the test images and extract the test images"
+cd $PROJECT_ROOT
+if [ "$PROJECT_VERSION" < 5.1 ]; then
+    wget -O test_images.zip http://releases.s3.shopware.com/test_images.zip
+else
+    wget -O test_images.zip http://releases.s3.shopware.com/test_images_since_5.1.zip
+fi;
+
+unzip test_images.zip
+
+chown -R 1001:1001 $PROJECT_ROOT
+
+echo "Shopware installation is complete"
