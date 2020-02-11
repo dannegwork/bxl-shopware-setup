@@ -1,6 +1,5 @@
 .idea
 .docker/database/
-.env
 auth.json
 .docker/php/logs/
 .docker/cli/logs/
