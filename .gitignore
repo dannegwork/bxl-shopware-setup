@@ -4,4 +4,5 @@ auth.json
 .docker/php/logs/
 .docker/cli/logs/
 src/*
+www/*
 .docker/nginx/logs/
